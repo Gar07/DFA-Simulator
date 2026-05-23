@@ -77,4 +77,5 @@ Pastikan **Node.js** (v18+) telah terpasang di sistem Anda.
    - Jika rasio langkah dibandingkan panjang *string* sangat tinggi, peringatan merah **Risiko Kritis** akan menyala.
 
 4. **Ekspor Laporan:**
-   - Klik tombol **Unduh Laporan** di sudut kanan atas halaman untuk mengekspor tampilan arsitektur menjadi dokumen PDF yang elegan.
+   - Klik tombol **Unduh Laporan** di sudut kanan atas halaman.
+   - Sistem akan mengekstrak state kanvas dan *trace log* aktif menjadi sebuah dokumen PDF terstruktur yang siap digunakan sebagai lampiran makalah/jurnal, mencakup Definisi 5-Tuple, Tabel Transisi, dan gambar graf kanvas resolusi tinggi.
