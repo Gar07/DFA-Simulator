@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
 export const exportCanvasToPDF = async (elementId: string, filename = 'automata-report.pdf') => {
@@ -6,12 +6,10 @@ export const exportCanvasToPDF = async (elementId: string, filename = 'automata-
   if (!element) return;
 
   try {
-    const canvas = await html2canvas(element, {
+    const imgData = await toPng(element, {
       backgroundColor: '#020617', // slate-950
-      scale: 2,
+      pixelRatio: 2,
     });
-
-    const imgData = canvas.toDataURL('image/png');
     
     // Default A4 paper
     const pdf = new jsPDF({

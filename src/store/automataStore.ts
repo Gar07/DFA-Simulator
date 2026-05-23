@@ -15,6 +15,10 @@ interface AutomataState {
   addEdgeWithSymbol: (source: string, target: string, symbol: string) => void;
   toggleAcceptState: (nodeId: string) => void;
   setInitialState: (nodeId: string) => void;
+  // State Updates
+  setAutomaton: (automaton: Automaton) => void;
+  updateTuple: (partial: Partial<Automaton>) => void;
+  syncGraphFromTuple: () => void;
   
   // React Flow handlers directly mapped
   onNodesChange: (changes: NodeChange[]) => void;
