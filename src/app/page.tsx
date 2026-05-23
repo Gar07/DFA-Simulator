@@ -37,8 +37,8 @@ export default function Home() {
         </div>
 
         {/* Right Column: Canvas & Simulation */}
-        <div className="lg:col-span-3 flex flex-col gap-6" id="automata-report-container">
-          <div className="flex-grow rounded-lg overflow-hidden border border-slate-800 shadow-2xl min-h-[400px]">
+        <div className="lg:col-span-3 flex flex-col gap-6">
+          <div id="automata-report-container" className="flex-grow rounded-lg overflow-hidden border border-slate-800 shadow-2xl min-h-[400px]">
             <AutomataCanvas />
           </div>
           
