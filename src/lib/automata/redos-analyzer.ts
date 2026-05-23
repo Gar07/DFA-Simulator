@@ -13,7 +13,7 @@ export const analyzeReDoS = (automaton: Automaton, testString: string): ReDoSAna
     return {
       isVulnerable: false,
       complexityRatio: 1,
-      message: "DFAs are strictly O(N) and are immune to Catastrophic Backtracking (ReDoS)."
+      message: "DFA memiliki waktu eksekusi O(N) dan kebal terhadap Catastrophic Backtracking (ReDoS)."
     };
   }
 
@@ -21,7 +21,7 @@ export const analyzeReDoS = (automaton: Automaton, testString: string): ReDoSAna
     return {
       isVulnerable: false,
       complexityRatio: 1,
-      message: "Provide a test string to analyze runtime complexity."
+      message: "Masukkan string uji untuk menganalisis kompleksitas."
     };
   }
 
@@ -33,14 +33,14 @@ export const analyzeReDoS = (automaton: Automaton, testString: string): ReDoSAna
   // We flag it if the ratio is above a certain threshold (e.g., > 2.0 on average)
   
   let isVulnerable = false;
-  let message = "NFA execution is within expected linear bounds.";
+  let message = "Eksekusi NFA berada dalam batas linear yang wajar.";
 
   if (ratio > 5) {
     isVulnerable = true;
-    message = "CRITICAL RISK: Severe catastrophic backtracking detected. Execution steps are exploding.";
+    message = "RISIKO KRITIS: Terdeteksi catastrophic backtracking yang parah. Langkah eksekusi melonjak tajam.";
   } else if (ratio > 2) {
     isVulnerable = true;
-    message = "HIGH RISK: Moderate branching and backtracking detected.";
+    message = "RISIKO TINGGI: Terdeteksi percabangan (branching) dan backtracking yang moderat.";
   }
 
   return {
