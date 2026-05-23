@@ -1,4 +1,4 @@
-import { Automaton, simulateAutomaton } from "./types";
+import { Automaton } from "./types";
 // Need to import simulateAutomaton from engine
 import { simulateAutomaton as sim } from "./engine";
 

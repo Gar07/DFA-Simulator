@@ -50,7 +50,9 @@ export async function POST(request: Request) {
     let text = '';
     if (response.content && Array.isArray(response.content)) {
       // Find the first block of type 'text'
-      const textBlock = response.content.find((block: any) => block.type === 'text');
+      const textBlock = response.content.find(
+        (block): block is Anthropic.TextBlock => block.type === 'text'
+      );
       if (textBlock && 'text' in textBlock) {
         text = textBlock.text;
       }
@@ -63,11 +65,17 @@ export async function POST(request: Request) {
     // MiniMax/Anthropic might sometimes wrap JSON even if told not to, so we strip it if present
     const cleanedText = text.replace(/^```(json)?/, '').replace(/```$/, '').trim();
 
+    interface RawTransition {
+      from: string;
+      input: string;
+      to: string | string[];
+    }
+
     const automaton = JSON.parse(cleanedText);
 
     // Normalize transitions in case the AI returned 'to' as a string instead of string[]
     if (automaton.transitions && Array.isArray(automaton.transitions)) {
-      automaton.transitions = automaton.transitions.map((t: any) => ({
+      automaton.transitions = automaton.transitions.map((t: RawTransition) => ({
         ...t,
         to: Array.isArray(t.to) ? t.to : [t.to]
       }));
@@ -75,10 +83,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(automaton);
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('AI Generation Error:', error);
     return NextResponse.json(
-      { error: 'Failed to generate automaton', details: error.message }, 
+      { error: 'Failed to generate automaton', details: errorMessage }, 
       { status: 500 }
     );
   }

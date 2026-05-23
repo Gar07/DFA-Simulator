@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAutomataStore } from '@/store/automataStore';
 import { simulateAutomaton } from '@/lib/automata/engine';
-import { Table, Download, CheckCircle2, XCircle } from 'lucide-react';
+import { Table, CheckCircle2, XCircle } from 'lucide-react';
 
 export default function BulkTester() {
   const { automaton } = useAutomataStore();
@@ -12,7 +12,6 @@ export default function BulkTester() {
 
   const handleTest = () => {
     const strings = bulkInput.split('\n').map(s => s.trim()).filter(s => s);
-    const start = performance.now();
     
     const newResults = strings.map(str => {
       const t0 = performance.now();

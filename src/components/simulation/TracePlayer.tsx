@@ -1,38 +1,49 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Play, Square, StepForward, Activity } from 'lucide-react';
 import { useAutomataStore } from '@/store/automataStore';
 import { simulateAutomaton } from '@/lib/automata/engine';
+import { StepTrace } from '@/lib/automata/types';
 
 export default function TracePlayer() {
-  const { automaton, testString, setTestString, setActiveStates, setSimulationTrace } = useAutomataStore();
+  const { automaton, testString, setTestString, setActiveStates } = useAutomataStore();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(-1);
-  const [trace, setLocalTrace] = useState<any[]>([]);
-  const [finalStatus, setFinalStatus] = useState<'Accept' | 'Reject' | 'Error' | null>(null);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleSimulate = () => {
+  const trace = useMemo<StepTrace[]>(() => {
     const result = simulateAutomaton(automaton, testString);
-    if (result.error) {
-      setFinalStatus('Error');
-      return;
-    }
-    setLocalTrace(result.trace);
-    setSimulationTrace(result.trace);
-    setCurrentStep(-1);
-    setActiveStates([automaton.initialState]);
-    setFinalStatus(null);
-  };
-
-  useEffect(() => {
-    handleSimulate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return result.error ? [] : result.trace;
   }, [automaton, testString]);
 
-  const stepForward = () => {
+  const [prevTrace, setPrevTrace] = useState(trace);
+
+  if (trace !== prevTrace) {
+    setPrevTrace(trace);
+    setCurrentStep(-1);
+    setIsPlaying(false);
+  }
+
+  useEffect(() => {
+    setActiveStates([automaton.initialState]);
+  }, [automaton.initialState, trace, setActiveStates]);
+
+  const finalStatus = useMemo<'Accept' | 'Reject' | 'Error' | null>(() => {
+    if (trace.length === 0 && testString.length > 0) {
+      return 'Error';
+    }
+    if (currentStep === -1) {
+      return null;
+    }
+    if (currentStep === trace.length - 1) {
+      return trace[currentStep].isAccepted ? 'Accept' : 'Reject';
+    }
+    return null;
+  }, [trace, currentStep, testString]);
+
+  const stepForward = useCallback(() => {
     if (currentStep >= trace.length - 1) {
       setIsPlaying(false);
       return;
@@ -40,17 +51,12 @@ export default function TracePlayer() {
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
     setActiveStates(trace[nextStep].nextStates);
-    
-    if (nextStep === trace.length - 1) {
-      setFinalStatus(trace[nextStep].isAccepted ? 'Accept' : 'Reject');
-    }
-  };
+  }, [currentStep, trace, setActiveStates]);
 
   const stop = () => {
     setIsPlaying(false);
     setCurrentStep(-1);
     setActiveStates([automaton.initialState]);
-    setFinalStatus(null);
   };
 
   useEffect(() => {
@@ -60,7 +66,7 @@ export default function TracePlayer() {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [isPlaying, currentStep, trace]);
+  }, [isPlaying, currentStep, trace, stepForward]);
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">

@@ -1,21 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { ShieldAlert, ShieldCheck, Zap } from 'lucide-react';
 import { useAutomataStore } from '@/store/automataStore';
-import { analyzeReDoS } from '@/lib/automata/redos-analyzer';
+import { analyzeReDoS, ReDoSAnalysisResult } from '@/lib/automata/redos-analyzer';
 
 export default function ReDoSDashboard() {
   const { automaton, testString } = useAutomataStore();
-  const [analysis, setAnalysis] = useState<any>(null);
 
-  useEffect(() => {
+  const analysis = useMemo<ReDoSAnalysisResult | null>(() => {
     if (automaton && testString) {
-      const result = analyzeReDoS(automaton, testString);
-      setAnalysis(result);
-    } else {
-      setAnalysis(null);
+      return analyzeReDoS(automaton, testString);
     }
+    return null;
   }, [automaton, testString]);
 
   if (!analysis) {

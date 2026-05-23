@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Automaton, Transition } from '@/lib/automata/types';
-import { Node, Edge } from '@xyflow/react';
+import { Node, Edge, NodeChange, EdgeChange } from '@xyflow/react';
 import { getLayoutedElements } from '@/lib/layout/dagreLayout';
 
 interface AutomataState {
@@ -17,8 +17,8 @@ interface AutomataState {
   setInitialState: (nodeId: string) => void;
   
   // React Flow handlers directly mapped
-  onNodesChange: (changes: any) => void;
-  onEdgesChange: (changes: any) => void;
+  onNodesChange: (changes: NodeChange[]) => void;
+  onEdgesChange: (changes: EdgeChange[]) => void;
   
   // Simulation State
   testString: string;

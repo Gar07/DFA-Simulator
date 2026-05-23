@@ -1,4 +1,4 @@
-import { Automaton, SimulationResult, State, StepTrace, Symbol } from "./types";
+import { Automaton, SimulationResult, State, StepTrace } from "./types";
 
 export const validateAutomaton = (automaton: Automaton): string | null => {
   if (!automaton.states.includes(automaton.initialState)) {

@@ -5,14 +5,12 @@ import {
   ReactFlow,
   Controls,
   Background,
-  useNodesState,
-  useEdgesState,
-  addEdge,
   Connection,
-  Edge,
   Panel,
   useReactFlow,
   ReactFlowProvider,
+  Node,
+  Edge,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { PlusCircle, Trash2, CheckCircle, PlayCircle } from 'lucide-react';
@@ -65,15 +63,15 @@ function AutomataCanvas() {
     [addEdgeWithSymbol],
   );
   
-  const onNodesDelete = useCallback((deleted: any[]) => {
+  const onNodesDelete = useCallback((deleted: Node[]) => {
     deleteElements(deleted, []);
   }, [deleteElements]);
   
-  const onEdgesDelete = useCallback((deleted: any[]) => {
+  const onEdgesDelete = useCallback((deleted: Edge[]) => {
     deleteElements([], deleted);
   }, [deleteElements]);
 
-  const onNodeClick = useCallback((_: any, node: any) => {
+  const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
     setSelectedNodeId(node.id);
   }, []);
 
@@ -88,6 +86,14 @@ function AutomataCanvas() {
       y: window.innerHeight / 2,
     });
     addNode(center);
+  };
+
+  const handleSelectedNodeDelete = () => {
+    const nodeToDelete = nodes.find(n => n.id === selectedNodeId);
+    if (nodeToDelete) {
+      deleteElements([nodeToDelete], []);
+      setSelectedNodeId(null);
+    }
   };
 
   return (
@@ -129,7 +135,7 @@ function AutomataCanvas() {
                 <PlayCircle className="w-5 h-5" />
               </button>
               <button 
-                onClick={() => deleteElements([{id: selectedNodeId} as any], [])} 
+                onClick={handleSelectedNodeDelete} 
                 className="p-2 hover:bg-red-900/50 rounded text-red-400 transition-colors" 
                 title="Hapus State"
               >

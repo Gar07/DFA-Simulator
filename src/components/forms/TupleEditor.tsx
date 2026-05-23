@@ -1,17 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAutomataStore } from '@/store/automataStore';
 import { Automaton } from '@/lib/automata/types';
 
 export default function TupleEditor() {
   const { automaton, updateTuple } = useAutomataStore();
-  const [localJson, setLocalJson] = useState('');
+  const [prevAutomaton, setPrevAutomaton] = useState(automaton);
+  const [localJson, setLocalJson] = useState(() => JSON.stringify(automaton, null, 2));
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  if (automaton !== prevAutomaton) {
+    setPrevAutomaton(automaton);
     setLocalJson(JSON.stringify(automaton, null, 2));
-  }, [automaton]);
+  }
 
   const handleSave = () => {
     try {
@@ -22,8 +24,12 @@ export default function TupleEditor() {
       }
       updateTuple(parsed);
       setError(null);
-    } catch (e: any) {
-      setError(e.message || 'Invalid JSON format');
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('Invalid JSON format');
+      }
     }
   };
 
