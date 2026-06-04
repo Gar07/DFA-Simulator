@@ -54,7 +54,7 @@ export const exportCanvasToPDF = async (elementId: string, filename = 'Laporan_A
     const typeText = automaton.isNFA ? "Non-Deterministic Finite Automaton (NFA)" : "Deterministic Finite Automaton (DFA)";
     pdf.text(`Tipe Automata : ${typeText}`, 14, currentY); currentY += lineHeight;
     pdf.text(`States (Q)     : { ${automaton.states.join(', ')} }`, 14, currentY); currentY += lineHeight;
-    pdf.text(`Alphabet (Σ)   : { ${automaton.alphabet.join(', ')} }`, 14, currentY); currentY += lineHeight;
+    pdf.text(`Alphabet (Sigma) : { ${automaton.alphabet.join(', ')} }`, 14, currentY); currentY += lineHeight;
     pdf.text(`Initial (q0)    : ${automaton.initialState}`, 14, currentY); currentY += lineHeight;
     pdf.text(`Final (F)      : { ${automaton.acceptStates.join(', ')} }`, 14, currentY); currentY += lineHeight;
 
@@ -63,7 +63,7 @@ export const exportCanvasToPDF = async (elementId: string, filename = 'Laporan_A
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
     pdf.setTextColor(15, 23, 42);
-    pdf.text("2. Tabel Transisi (δ)", 14, currentY);
+    pdf.text("2. Tabel Transisi (Delta)", 14, currentY);
 
     const head = [['State', ...automaton.alphabet]];
     const body = automaton.states.map(state => {
