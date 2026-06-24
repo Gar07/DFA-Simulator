@@ -8,25 +8,29 @@ import ReDoSDashboard from '@/components/analytics/ReDoSDashboard';
 import BulkTester from '@/components/testing/BulkTester';
 import { exportCanvasToPDF } from '@/lib/export/exportUtils';
 import { Download } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-200 p-6 flex flex-col">
+    <main className="p-6 flex flex-col min-h-full">
       <header className="mb-6 flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
             Simulator Automata Berbasis AI
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">
             Evaluasi interaktif DFA/NFA & analisis kerentanan ReDoS
           </p>
         </div>
-        <button 
-          onClick={() => exportCanvasToPDF('automata-report-container', 'laporan-automata.pdf')}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-medium transition-colors border border-slate-700"
-        >
-          <Download className="w-4 h-4" /> Unduh Laporan
-        </button>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <button 
+            onClick={() => exportCanvasToPDF('automata-report-container', 'laporan-automata.pdf')}
+            className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 rounded font-medium transition-colors border dark:border-slate-700"
+          >
+            <Download className="w-4 h-4" /> Unduh Laporan
+          </button>
+        </div>
       </header>
 
       <div className="flex-grow grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -38,7 +42,7 @@ export default function Home() {
 
         {/* Right Column: Canvas & Simulation */}
         <div className="lg:col-span-3 flex flex-col gap-6">
-          <div id="automata-report-container" className="flex-grow rounded-lg overflow-hidden border border-slate-800 shadow-2xl min-h-[400px]">
+          <div id="automata-report-container" className="flex-grow rounded-lg overflow-hidden border border-slate-300 dark:border-slate-800 shadow-xl dark:shadow-2xl min-h-[400px] bg-white dark:bg-slate-950">
             <AutomataCanvas />
           </div>
           

@@ -43,21 +43,21 @@ export default function PromptInput() {
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
+    <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-4 shadow-sm dark:shadow-none">
       <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="w-5 h-5 text-cyan-400" />
-        <h2 className="text-lg font-bold text-slate-200">Generator AI</h2>
+        <Sparkles className="w-5 h-5 text-cyan-500 dark:text-cyan-400" />
+        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200">Generator AI</h2>
       </div>
       
       <textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Deskripsikan bahasa (misal: 'DFA yang menerima string biner yang diakhiri dengan 01')"
-        className="w-full bg-slate-950 border border-slate-700 rounded p-3 text-sm text-slate-300 focus:outline-none focus:border-cyan-500 min-h-[100px] resize-none mb-3"
+        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded p-3 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-cyan-500 min-h-[100px] resize-none mb-3 placeholder:text-slate-400 dark:placeholder:text-slate-500"
       />
       
       {error && (
-        <div className="mb-3 p-2 bg-red-950/50 border border-red-900 text-red-400 text-xs rounded">
+        <div className="mb-3 p-2 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 text-xs rounded">
           {error}
         </div>
       )}

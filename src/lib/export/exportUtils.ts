@@ -108,9 +108,8 @@ export const exportCanvasToPDF = async (elementId: string, filename = 'Laporan_A
     pdf.setTextColor(15, 23, 42);
     pdf.text("3. Visualisasi Diagram", 14, currentY);
 
-    // Tangkap kanvas saja, ubah background jadi slate-900 biar keren
+    // Tangkap kanvas apa adanya sesuai tema aktif
     const imgData = await toPng(element, {
-      backgroundColor: '#0f172a',
       pixelRatio: 2,
     });
 

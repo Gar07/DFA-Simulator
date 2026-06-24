@@ -69,10 +69,10 @@ export default function TracePlayer() {
   }, [isPlaying, currentStep, trace, stepForward]);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-lg p-4">
+    <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg p-4 shadow-sm dark:shadow-none">
       <div className="flex items-center gap-2 mb-3">
-        <Activity className="w-5 h-5 text-cyan-400" />
-        <h2 className="text-lg font-bold text-slate-200">Jejak Simulasi (Trace)</h2>
+        <Activity className="w-5 h-5 text-cyan-500 dark:text-cyan-400" />
+        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200">Jejak Simulasi (Trace)</h2>
       </div>
 
       <div className="flex gap-2 mb-4">
@@ -81,7 +81,7 @@ export default function TracePlayer() {
           value={testString}
           onChange={(e) => setTestString(e.target.value)}
           placeholder="Masukkan string uji (misal: 1001)"
-          className="flex-grow bg-slate-950 border border-slate-700 rounded p-2 text-sm text-slate-300 focus:outline-none focus:border-cyan-500 font-mono"
+          className="flex-grow bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded p-2 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-cyan-500 font-mono placeholder:text-slate-400 dark:placeholder:text-slate-500"
         />
       </div>
 
@@ -89,21 +89,21 @@ export default function TracePlayer() {
         <button 
           onClick={() => setIsPlaying(!isPlaying)}
           disabled={trace.length === 0}
-          className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+          className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
         >
           <Play className="w-4 h-4" /> {isPlaying ? 'Jeda' : 'Putar'}
         </button>
         <button 
           onClick={stepForward}
           disabled={isPlaying || currentStep >= trace.length - 1 || trace.length === 0}
-          className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+          className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
         >
           <StepForward className="w-4 h-4" /> Langkah
         </button>
         <button 
           onClick={stop}
           disabled={currentStep === -1}
-          className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+          className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
         >
           <Square className="w-4 h-4" /> Berhenti
         </button>
@@ -115,9 +115,9 @@ export default function TracePlayer() {
           <div 
             key={idx} 
             className={`w-8 h-10 flex items-center justify-center font-mono font-bold rounded border ${
-              idx === currentStep ? 'bg-cyan-900 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]' :
-              idx < currentStep ? 'bg-slate-800 border-slate-600 text-slate-500' :
-              'bg-slate-950 border-slate-700 text-slate-300'
+              idx === currentStep ? 'bg-cyan-100 border-cyan-400 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.3)] dark:shadow-[0_0_10px_rgba(34,211,238,0.3)]' :
+              idx < currentStep ? 'bg-slate-200 border-slate-300 text-slate-500 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-500' :
+              'bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-950 dark:border-slate-700 dark:text-slate-300'
             }`}
           >
             {char}
@@ -127,9 +127,9 @@ export default function TracePlayer() {
 
       {finalStatus && (
         <div className={`mt-4 p-3 rounded font-bold text-center ${
-          finalStatus === 'Accept' ? 'bg-green-950/50 border border-green-900 text-green-400' :
-          finalStatus === 'Reject' ? 'bg-red-950/50 border border-red-900 text-red-400' :
-          'bg-yellow-950/50 border border-yellow-900 text-yellow-400'
+          finalStatus === 'Accept' ? 'bg-green-50 border border-green-200 text-green-700 dark:bg-green-950/50 dark:border-green-900 dark:text-green-400' :
+          finalStatus === 'Reject' ? 'bg-red-50 border border-red-200 text-red-700 dark:bg-red-950/50 dark:border-red-900 dark:text-red-400' :
+          'bg-yellow-50 border border-yellow-200 text-yellow-700 dark:bg-yellow-950/50 dark:border-yellow-900 dark:text-yellow-400'
         }`}>
           {finalStatus === 'Error' ? 'Automaton Error' : 
            finalStatus === 'Accept' ? 'String Diterima (Accepted)!' : 'String Ditolak (Rejected)!'}
