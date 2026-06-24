@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     `;
 
     const response = await anthropic.messages.create({
-      model: 'MiniMax-M2.7',
+      model: 'MiniMax-M3',
       max_tokens: 2000,
       system: systemPrompt,
       messages: [
